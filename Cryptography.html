@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypting and Decrypting Messages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color:azure;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            font-weight:bolder;
+        }
+        input[type="text"], button {
+            margin-top: 10px;
+            font-weight: bolder;
+        }
+        h1{
+            color: blue;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            animation-name: ani;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+        }  
+        @keyframes ani{
+            from
+            {
+                color: darkblue;
+            }
+            to{
+                color:red;
+            }
+        }
+        label{
+            font-weight: bolder;
+        }
+        ::placeholder
+        {
+            font-size:18px;
+        }
+        input{
+            font-size: 2rem;
+        }
+        textarea{
+            font-size: 2rem;
+        }
+        a{
+            color:green;
+            font-size: 20px;
+            text-align: right;
+            position:fixed;
+        }
+    </style>
+</head>
+<body>
+<center>
+    <bold><u><h1>CRYPTOGRAPHY</h1></u></bold><br>
+    <h1>CAESER CIPHER</h1>
+</center>
+    <br>
+    <a href="Home.html" style="text-align: right;">HOME</a>
+    <br>
+    <br>
+    <br>
+    <a href="Cryptography.html">CAESER CIPHER</a>
+    <br>
+    <br>
+    <center>
+    <bold><label for="inputText">Enter Plaintext or Ciphertext:</label></bold>
+    <textarea id="inputText" placeholder="Enter plaintext or ciphertext here..."></textarea>
+    
+    <bold><label for="key">Enter Key:</label></bold>
+    <input type="text" id="key" placeholder="Enter key...">
+
+    <button onclick="encrypt()">Encrypt</button>
+    <button onclick="decrypt()">Decrypt</button>
+    
+    <label for="outputText">Output:</label>
+    <textarea id="outputText" readonly placeholder="Encrypted or decrypted message..."></textarea>
+
+    <label for="recipientEmail">Recipient's Email:</label>
+    <input type="email" id="recipientEmail" placeholder="Enter recipient's email...">
+
+    <button onclick="sendEmail()">Send Email</button>
+    <br><br><br>
+<a href="https://en.wikibooks.org/wiki/Cryptography/History">A Brief History of Cryptography</a>
+    <br>
+<hr>
+<br>
+<h2>To know more about cryptography: <br> visit:</h2>
+<br><a href="https://www.geeksforgeeks.org/computer-networks/cryptography-and-its-types/">Criptography and its types</a>
+<hr>
+
+
+</center>
+
+    <script>
+        function encrypt() {
+            const plaintext = document.getElementById('inputText').value;
+            const key = document.getElementById('key').value;
+            const ciphertext = encryptText(plaintext, key);
+            document.getElementById('outputText').value = ciphertext;
+        }
+
+        function decrypt() {
+            const ciphertext = document.getElementById('inputText').value;
+            const key = document.getElementById('key').value;
+            const plaintext = decryptText(ciphertext, key);
+            document.getElementById('outputText').value = plaintext;
+        }
+
+        function encryptText(plaintext, key) {
+            let ciphertext = '';
+            for (let i = 0; i < plaintext.length; i++) {
+                let charCode = plaintext.charCodeAt(i);
+                if (charCode >= 65 && charCode <= 90) { // Uppercase letters
+                    ciphertext += String.fromCharCode((charCode - 65 + parseInt(key)) % 26 + 65);
+                } else if (charCode >= 97 && charCode <= 122) { // Lowercase letters
+                    ciphertext += String.fromCharCode((charCode - 97 + parseInt(key)) % 26 + 97);
+                } else {
+                    ciphertext += plaintext[i]; // Non-alphabetic characters remain unchanged
+                }
+            }
+            return ciphertext;
+        }
+
+        function decryptText(ciphertext, key) {
+            let plaintext = '';
+            for (let i = 0; i < ciphertext.length; i++) {
+                let charCode = ciphertext.charCodeAt(i);
+                if (charCode >= 65 && charCode <= 90) { // Uppercase letters
+                    plaintext += String.fromCharCode((charCode - 65 - parseInt(key) + 26) % 26 + 65);
+                } else if (charCode >= 97 && charCode <= 122) { // Lowercase letters
+                    plaintext += String.fromCharCode((charCode - 97 - parseInt(key) + 26) % 26 + 97);
+                } else {
+                    plaintext += ciphertext[i]; // Non-alphabetic characters remain unchanged
+                }
+            }
+            return plaintext;
+        }
+
+        function sendEmail() {
+            const recipientEmail = document.getElementById('recipientEmail').value;
+            const text = document.getElementById('outputText').value;
+
+            // Send the email via backend server
+            // This part should be handled by a backend service
+            // Using a library like Nodemailer (for Node.js) or PHPMailer (for PHP)
+
+            // For demonstration purposes, you can display an alert
+            alert(`Email sent to ${recipientEmail} with the following text:\n\n${text}`);
+        }
+    </script>
+</body>
+</html>
+</head>
+<body>
+    
+</body>
+</html>
